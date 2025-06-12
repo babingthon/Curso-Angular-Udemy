@@ -1,8 +1,14 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
 
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { getPaginatorIntl } from './paginator-intl-pt'; // certifique-se de que o caminho está correto
+
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes)]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    { provide: MatPaginatorIntl, useValue: getPaginatorIntl() }
+  ]
 };

@@ -1,16 +1,17 @@
 <div fxLayout="row" fxLayoutAlign="center">
-  <div fxLayout="column" fxFlex="900px">
-    <form class="mt-60" #buscaForm="ngForm">
+  <div fxLayout="column" fxFlex="1000px">
+    <form class="mt-60" #buscaForm="ngForm" (ngSubmit)="pesquisarCliente()">
       <mat-card appearance="outlined">
         <mat-card-header>
           <mat-card-title>Consulta de Clientes</mat-card-title>
         </mat-card-header>
         <mat-card-content class="mt-20">
           <div fxLayout="row">
-            <div fxLayout="column" fxFlex="800px">
+            <div fxLayout="column" fxFlex="900px">
               <mat-form-field>
                 <mat-label>Nome:</mat-label>
-                <input type="text" placeholder="Digite o nome do cliente" matInput>
+                <input name="nomeBusca" [(ngModel)]="nomeBusca" type="text" placeholder="Digite o nome do cliente"
+                  matInput>
               </mat-form-field>
             </div>
           </div>
@@ -25,47 +26,62 @@
     </form>
   </div>
 </div>
-
 <div fxLayout="row" fxLayoutAlign="center" class="mt-20">
-  <div fxLayout="column" fxFlex="900px">
+  <div fxLayout="column" fxFlex="1000px">
     <mat-card appearance="outlined">
       <mat-card-header>
         <mat-card-title>Resultado</mat-card-title>
       </mat-card-header>
       <mat-card-content class="mt-20">
-
-        <table mat-table [dataSource]="listaClientes">
-
+        <table mat-table [dataSource]="dataSource">
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef>id</th>
             <td mat-cell *matCellDef="let cliente">{{ cliente.id }}</td>
           </ng-container>
-
           <ng-container matColumnDef="nome">
             <th mat-header-cell *matHeaderCellDef>Nome</th>
             <td mat-cell *matCellDef="let cliente">{{ cliente.nome }}</td>
           </ng-container>
-
           <ng-container matColumnDef="cpf">
             <th mat-header-cell *matHeaderCellDef>CPF</th>
             <td mat-cell *matCellDef="let cliente">{{ cliente.cpf }}</td>
           </ng-container>
-
           <ng-container matColumnDef="dataNascimento">
             <th mat-header-cell *matHeaderCellDef>Data Nascimento</th>
             <td mat-cell *matCellDef="let cliente">{{ cliente.dataNascimento }}</td>
           </ng-container>
-
           <ng-container matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef>Email</th>
             <td mat-cell *matCellDef="let cliente">{{ cliente.email }}</td>
           </ng-container>
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let cliente">
+              <button type="button" mat-button (click)="preparaEditar(cliente.id)">
+                <mat-icon fontIcon="edit"></mat-icon>
+                Editar
+              </button>
+              @if(!cliente.deletando){
+              <button type="button" mat-button color="warn" (click)="preparaDeletar(cliente)">
+                <mat-icon fontIcon="delete"></mat-icon>
+                Deletar
+              </button>
+              } @else {
+              <button type="button" mat-button color="warn" (click)="deletarCliente(cliente)">
+                Confirma
+                <mat-icon fontIcon="question_mark"></mat-icon>
+              </button>
+              }
+            </td>
+          </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="colunasTable"></tr>
           <tr mat-row *matRowDef="let row; columns: colunasTable"></tr>
-
         </table>
 
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons>
+        </mat-paginator>
+        <p>Total de registros: {{ dataSource.data.length }}</p>
       </mat-card-content>
     </mat-card>
   </div>
