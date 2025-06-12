@@ -13,7 +13,6 @@ import { Cliente } from '../cadastro/cliente';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask'
 
 @Component({
   selector: 'app-consulta',
@@ -26,10 +25,8 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask'
     MatTableModule,
     MatButtonModule,
     CommonModule,
-    MatPaginator,
-    NgxMaskDirective
+    MatPaginator
   ],
-  providers: [provideNgxMask()],
   templateUrl: './consulta.component.html',
   styleUrl: './consulta.component.scss',
 })
@@ -47,8 +44,6 @@ export class ConsultaComponent implements OnInit {
   constructor(
     private service: ClienteService,
     private router: Router) {
-    // Constructor logic if needed
-
   }
 
   ngOnInit() {
